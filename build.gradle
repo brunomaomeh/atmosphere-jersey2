@@ -1,0 +1,62 @@
+apply plugin:'java'
+apply plugin:'jetty'
+apply plugin:'war'
+apply plugin:'eclipse-wtp'
+
+group = 'br.com.atmosphere-jersey2'
+version = '0.0.1-SNAPSHOT'
+
+description = "atmosphere-jersey2"
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+configurations.all {
+}
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath group: 'com.github.martins1930.gradle', name: 'JettyMulti', version: '1.2.0-RELEASE'
+		classpath 'org.eclipse.jetty:jetty-websocket:8.1.12.v20130726'
+	}
+}
+apply plugin: 'jettymulti'
+
+jettyMulti {
+	jMPort = 8096 ;
+	jMScanInterval = 1 ;
+}
+
+repositories {
+	mavenRepo url: "http://oss.sonatype.org/content/repositories/releases"
+	mavenRepo url: "http://oss.sonatype.org/content/repositories/snapshots"
+	mavenRepo url: "https://repository.jboss.org/nexus/content/groups/public/"
+	mavenRepo url: "http://repository.codehaus.org"
+	mavenRepo url: "http://snapshots.repository.codehaus.org"
+	mavenRepo url: "https://maven.java.net/content/groups/public/"
+	mavenRepo url: "https://oss.sonatype.org/content/repositories/snapshots"
+	mavenRepo url: "http://repo.maven.apache.org/maven2"
+}
+dependencies {
+	compile group: 'org.atmosphere', name: 'atmosphere-runtime', version:'2.0.1'
+//	compile group:"org.atmosphere", name: "atmosphere-jersey", version: '2.0.1'
+//	compile group: 'org.atmosphere.client', name: 'jquery', version:'2.0.3'
+	compile group: 'org.glassfish.jersey.core', name: "jersey-server", version: "2.3"
+	compile group: 'org.glassfish.jersey.core', name: 'jersey-common', version: '2.3'
+//	compile group:"com.sun.jersey", name: "jersey-core", version:"2.3"
+//	compile group:"com.sun.jersey", name: "jersey-server", version:"2.3"
+//	compile group:"com.sun.jersey", name: "jersey-servlet", version:"2.3"
+	compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
+	compile group: 'ch.qos.logback', name: 'logback-core', version:'1.0.13'
+//	compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version:'2.2'
+//	compile 'javax.ws.rs:javax.ws.rs-api:2.0'
+//	providedCompile "javax.servlet:jstl:1.2"
+}
+
+task "create-dirs" << {
+	sourceSets*.java.srcDirs*.each { it.mkdirs() }
+	sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
